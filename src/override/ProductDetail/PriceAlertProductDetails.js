@@ -1,0 +1,85 @@
+import React from "react";
+import {useProductAlertSubscription} from "./useProductAlertSubscription";
+import LoadingIndicator from "@magento/venia-ui/lib/components/LoadingIndicator/indicator";
+
+
+const PriceAlertProductDetails = (props) => {
+    const productSku = props ? props.sku : null;
+    const setMessage = props ? props.setMessage : null
+    const setMessageType = props ? props.setMessageType : null
+    const setPopUpData = props ? props.setPopUpData : null
+    const setShowPopup = props ? props.setShowPopup : null
+
+
+    const {
+        addPriceDropNotificationSubscription,
+        addStockNotificationSubscription,
+        shouldShowPriceSubscription,
+        shouldShowStockSubscription,
+        print,
+        isGlobalLoading
+    } = useProductAlertSubscription({
+        sku: productSku,
+        setMessage: setMessage,
+        setMessageType: setMessageType,
+        setPopUpData: setPopUpData,
+        setShowPopup: setShowPopup
+    });
+
+
+    return (
+        <>
+            {shouldShowPriceSubscription && (
+                <div style={{
+                    paddingTop: 8
+                }}>
+                    <a style={{
+                        fontFamily: "Open Sans, 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                        fontSize: 16,
+                        color: '#006bb4',
+                        fontWeight: 400
+                    }}
+                       title={'Notify me when the prices drops'}
+                       onClick={addPriceDropNotificationSubscription}
+                    >
+                        {'Notify me when the price drops'}
+                    </a>
+
+                </div>
+            )}
+
+            {shouldShowStockSubscription && (
+                <div style={{
+                    paddingTop: 8
+                }}>
+                    <a style={{
+                        fontFamily: "Open Sans, 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                        fontSize: 16,
+                        color: '#006bb4',
+                        fontWeight: 400
+                    }}
+                       title={'Notify me when the prices drops'}
+                       onClick={addStockNotificationSubscription}
+                    >
+                        {'Notify me when this product is in stock'}
+                    </a>
+                </div>
+            )}
+            {!!isGlobalLoading && (<div style={{
+                position: 'fixed', /* Stay in place */
+                zIndex: 10, /* Sit on top */
+                left: 0,
+                top: 0,
+                width: '100%', /* Full width */
+                height: '100%', /* Full height */
+                overflow: 'auto', /* Enable scroll if needed */
+                backgroundColor: '#33333365', /* Fallback color */
+            }}>
+                <LoadingIndicator global={true}/>
+            </div>)}
+            {/*{!!print && <p>{print ? print : 'oh no'}</p>}*/}
+        </>
+    )
+}
+
+export {PriceAlertProductDetails}
